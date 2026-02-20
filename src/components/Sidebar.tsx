@@ -8,8 +8,6 @@ import {
   Scaling,
   Sparkles,
   Search,
-  Rocket,
-  BookOpen,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -86,27 +84,6 @@ export default function Sidebar({
             </button>
           );
         })}
-      </nav>
-
-      {/* Divider */}
-      <div className="my-5 border-t border-black/[0.06]" />
-
-      {/* Secondary links */}
-      <nav className="flex flex-col gap-0.5">
-        <a
-          href="#shortlist"
-          className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium text-[#777] hover:text-[#444] hover:bg-black/[0.03] transition-colors"
-        >
-          <Rocket size={16} strokeWidth={1.7} />
-          <span>Startup Shortlist</span>
-        </a>
-        <a
-          href="#guide"
-          className="flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-[13px] font-medium text-[#777] hover:text-[#444] hover:bg-black/[0.03] transition-colors"
-        >
-          <BookOpen size={16} strokeWidth={1.7} />
-          <span>How to Use</span>
-        </a>
       </nav>
 
       {/* Footer */}

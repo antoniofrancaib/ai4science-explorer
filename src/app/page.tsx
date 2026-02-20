@@ -9,8 +9,6 @@ import ProblemModal from "@/components/ProblemModal";
 import Sidebar from "@/components/Sidebar";
 import SearchBar, { SearchBarHandle } from "@/components/SearchBar";
 import Legend from "@/components/Legend";
-import StartupShortlist from "@/components/StartupShortlist";
-import GuideSection from "@/components/GuideSection";
 
 export default function Home() {
   const [activeViewId, setActiveViewId] = useState("hybrid");
@@ -32,7 +30,7 @@ export default function Home() {
   ).size;
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-[#1c1c1e]">
+    <div className="min-h-screen bg-[#faf9f7] text-[#1c1c1e] flex">
       {/* Sidebar */}
       <Sidebar
         views={partitionViews}
@@ -41,9 +39,9 @@ export default function Home() {
         onSearchFocus={() => searchRef.current?.focus()}
       />
 
-      {/* Main content — offset by sidebar width */}
-      <main className="ml-56 min-h-screen">
-        <div className="max-w-6xl px-8 py-10">
+      {/* Main content — offset by sidebar, centered in remaining viewport */}
+      <main className="flex-1 flex justify-center min-h-screen ml-56">
+        <div className="w-full max-w-6xl px-8 py-10">
           {/* Header */}
           <motion.header
             initial={{ opacity: 0, y: 12 }}
@@ -54,14 +52,6 @@ export default function Home() {
             <h1 className="text-3xl font-semibold tracking-tight text-[#1c1c1e] leading-tight">
               Open Problems in AI for Science
             </h1>
-            <p className="mt-3 text-[14px] text-[#888] max-w-2xl leading-relaxed">
-              The biggest breakthroughs come from working on problems that are{" "}
-              <span className="text-[#555] font-medium">high-potential</span>{" "}
-              and{" "}
-              <span className="text-[#555] font-medium">under-explored</span>.
-              This page maps ~65 open problems across biology, chemistry,
-              physics, and mathematics.
-            </p>
           </motion.header>
 
           {/* Controls */}
@@ -117,12 +107,6 @@ export default function Home() {
               ))}
             </AnimatePresence>
           </motion.div>
-
-          {/* Startup Shortlist */}
-          <StartupShortlist onProblemClick={handleProblemClick} />
-
-          {/* Guide */}
-          <GuideSection />
 
           {/* Footer */}
           <footer className="mt-16 pt-6 border-t border-gray-200 text-center pb-8">

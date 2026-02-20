@@ -9,7 +9,7 @@ interface QuadrantChartProps {
   onProblemClick: (problem: Problem) => void;
 }
 
-const CHART_PADDING = { top: 44, right: 16, bottom: 44, left: 16 };
+const CHART_PADDING = { top: 44, right: 16, bottom: 52, left: 88 };
 
 export default function QuadrantChart({
   group,
@@ -79,32 +79,37 @@ export default function QuadrantChart({
           />
         </svg>
 
-        {/* Y-axis labels */}
+        {/* Y-axis labels — vertical, height-centered in respective quadrants */}
         <div
-          className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight"
+          className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight whitespace-nowrap"
           style={{
-            top: CHART_PADDING.top - 28,
-            left: CHART_PADDING.left,
+            left: 12,
+            top: CHART_PADDING.top + (480 - CHART_PADDING.top - CHART_PADDING.bottom) / 4,
+            transform: "translate(-50%, -50%) rotate(-90deg)",
+            transformOrigin: "center center",
           }}
         >
           Transformative
         </div>
         <div
-          className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight"
+          className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight whitespace-nowrap"
           style={{
-            bottom: CHART_PADDING.bottom - 28,
-            left: CHART_PADDING.left,
+            left: 12,
+            top: CHART_PADDING.top + (3 * (480 - CHART_PADDING.top - CHART_PADDING.bottom)) / 4,
+            transform: "translate(-50%, -50%) rotate(-90deg)",
+            transformOrigin: "center center",
           }}
         >
           Incremental
         </div>
 
-        {/* X-axis labels */}
+        {/* X-axis labels — centered under left/right half of plot */}
         <div
           className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight"
           style={{
-            bottom: CHART_PADDING.bottom - 28,
-            left: CHART_PADDING.left,
+            bottom: 16,
+            left: "25%",
+            transform: "translateX(-50%)",
           }}
         >
           Overlooked
@@ -112,8 +117,9 @@ export default function QuadrantChart({
         <div
           className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight"
           style={{
-            bottom: CHART_PADDING.bottom - 28,
-            right: CHART_PADDING.right,
+            bottom: 16,
+            left: "75%",
+            transform: "translateX(-50%)",
           }}
         >
           Crowded

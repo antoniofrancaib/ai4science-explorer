@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Problem } from "@/types";
 import { partitionViews } from "@/data/views";
 import QuadrantChart from "@/components/QuadrantChart";
 import ProblemModal from "@/components/ProblemModal";
-import ViewSelector from "@/components/ViewSelector";
-import SearchBar from "@/components/SearchBar";
+import Sidebar from "@/components/Sidebar";
+import SearchBar, { SearchBarHandle } from "@/components/SearchBar";
 import Legend from "@/components/Legend";
 import StartupShortlist from "@/components/StartupShortlist";
 import GuideSection from "@/components/GuideSection";
@@ -15,6 +15,7 @@ import GuideSection from "@/components/GuideSection";
 export default function Home() {
   const [activeViewId, setActiveViewId] = useState("hybrid");
   const [selectedProblem, setSelectedProblem] = useState<Problem | null>(null);
+  const searchRef = useRef<SearchBarHandle>(null);
 
   const activeView = partitionViews.find((v) => v.id === activeViewId)!;
 
@@ -31,125 +32,105 @@ export default function Home() {
   ).size;
 
   return (
-    <div className="min-h-screen bg-[#080c14] text-white selection:bg-emerald-500/20">
-      {/* Ambient glow */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute -top-[40%] -left-[20%] w-[80%] h-[80%] rounded-full bg-emerald-500/[0.02] blur-[120px]" />
-        <div className="absolute -bottom-[40%] -right-[20%] w-[80%] h-[80%] rounded-full bg-violet-500/[0.02] blur-[120px]" />
-      </div>
+    <div className="min-h-screen bg-[#faf9f7] text-[#1c1c1e]">
+      {/* Sidebar */}
+      <Sidebar
+        views={partitionViews}
+        activeViewId={activeViewId}
+        onViewChange={setActiveViewId}
+        onSearchFocus={() => searchRef.current?.focus()}
+      />
 
-      <main className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-        {/* Hero */}
-        <motion.header
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-          className="mb-12"
-        >
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center">
-              <span className="text-sm">🔬</span>
+      {/* Main content — offset by sidebar width */}
+      <main className="ml-56 min-h-screen">
+        <div className="max-w-6xl px-8 py-10">
+          {/* Header */}
+          <motion.header
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="mb-10"
+          >
+            <h1 className="text-3xl font-semibold tracking-tight text-[#1c1c1e] leading-tight">
+              Open Problems in AI for Science
+            </h1>
+            <p className="mt-3 text-[14px] text-[#888] max-w-2xl leading-relaxed">
+              The biggest breakthroughs come from working on problems that are{" "}
+              <span className="text-[#555] font-medium">high-potential</span>{" "}
+              and{" "}
+              <span className="text-[#555] font-medium">under-explored</span>.
+              This page maps ~65 open problems across biology, chemistry,
+              physics, and mathematics.
+            </p>
+          </motion.header>
+
+          {/* Controls */}
+          <motion.div
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.35, delay: 0.1 }}
+            className="space-y-4 mb-8"
+          >
+            <div className="flex items-center justify-between gap-4">
+              <div>
+                <motion.div
+                  key={activeViewId}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-[13px] text-[#999]"
+                >
+                  <span className="text-[#555] font-medium">
+                    {activeView.title}
+                  </span>
+                  {" — "}
+                  {activeView.description}
+                  <span className="text-[#bbb] ml-1">
+                    ({totalProblems} problems)
+                  </span>
+                </motion.div>
+              </div>
+              <SearchBar ref={searchRef} onProblemClick={handleProblemClick} />
             </div>
-            <span className="text-[13px] font-medium text-white/40 tracking-wide uppercase">
-              AI4Science Explorer
-            </span>
-          </div>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white/95 max-w-3xl leading-[1.15]">
-            Open Problems in{" "}
-            <span className="bg-gradient-to-r from-emerald-400 via-cyan-400 to-violet-400 bg-clip-text text-transparent">
-              AI for Science
-            </span>
-          </h1>
+            <Legend />
+          </motion.div>
 
-          <p className="mt-4 text-base sm:text-lg text-white/40 max-w-2xl leading-relaxed">
-            The biggest breakthroughs come from working on problems that are{" "}
-            <span className="text-white/60 font-medium">high-potential</span>{" "}
-            and{" "}
-            <span className="text-white/60 font-medium">under-explored</span>.
-            This page maps ~65 open problems across biology, chemistry, physics,
-            and mathematics — with a focus on identifying the most overlooked,
-            high-upside opportunities.
-          </p>
-        </motion.header>
+          {/* Charts Grid */}
+          <motion.div
+            layout
+            className={`grid gap-4 ${
+              activeView.groups.length <= 3
+                ? "grid-cols-1 xl:grid-cols-3"
+                : activeView.groups.length === 4
+                ? "grid-cols-1 lg:grid-cols-2"
+                : "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
+            }`}
+          >
+            <AnimatePresence mode="popLayout">
+              {activeView.groups.map((group) => (
+                <QuadrantChart
+                  key={`${activeViewId}-${group.id}`}
+                  group={group}
+                  onProblemClick={handleProblemClick}
+                />
+              ))}
+            </AnimatePresence>
+          </motion.div>
 
-        {/* Controls bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.15 }}
-          className="space-y-4 mb-8"
-        >
-          <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-            <div className="flex-1">
-              <ViewSelector
-                views={partitionViews}
-                activeViewId={activeViewId}
-                onViewChange={setActiveViewId}
-              />
-            </div>
-            <SearchBar onProblemClick={handleProblemClick} />
-          </div>
+          {/* Startup Shortlist */}
+          <StartupShortlist onProblemClick={handleProblemClick} />
 
-          {/* View description */}
-          <div className="flex items-center justify-between">
-            <motion.div
-              key={activeViewId}
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.3 }}
-              className="text-[13px] text-white/35"
-            >
-              <span className="text-white/55 font-medium">
-                {activeView.title}
-              </span>{" "}
-              — {activeView.description}{" "}
-              <span className="text-white/25">
-                ({totalProblems} unique problems)
-              </span>
-            </motion.div>
-          </div>
+          {/* Guide */}
+          <GuideSection />
 
-          <Legend />
-        </motion.div>
-
-        {/* Charts Grid */}
-        <motion.div
-          layout
-          className={`grid gap-5 ${
-            activeView.groups.length <= 3
-              ? "grid-cols-1 lg:grid-cols-3"
-              : activeView.groups.length === 4
-              ? "grid-cols-1 md:grid-cols-2"
-              : "grid-cols-1 md:grid-cols-2 xl:grid-cols-3"
-          }`}
-        >
-          <AnimatePresence mode="popLayout">
-            {activeView.groups.map((group) => (
-              <QuadrantChart
-                key={`${activeViewId}-${group.id}`}
-                group={group}
-                onProblemClick={handleProblemClick}
-              />
-            ))}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Startup Shortlist */}
-        <StartupShortlist onProblemClick={handleProblemClick} />
-
-        {/* Guide */}
-        <GuideSection />
-
-        {/* Footer */}
-        <footer className="mt-20 pt-8 border-t border-white/[0.05] text-center">
-          <p className="text-[11px] text-white/20">
-            AI4Science Explorer — Open Problems Landscape Map
-          </p>
-          <p className="text-[10px] text-white/15 mt-1">
-            Built for internal research navigation. Data last reviewed Feb 2026.
-          </p>
-        </footer>
+          {/* Footer */}
+          <footer className="mt-16 pt-6 border-t border-gray-200 text-center pb-8">
+            <p className="text-[11px] text-[#ccc]">
+              AI4Science Explorer — Open Problems Landscape
+            </p>
+          </footer>
+        </div>
       </main>
 
       {/* Problem Detail Modal */}

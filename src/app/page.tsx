@@ -33,17 +33,18 @@ export default function Home() {
   ).size;
 
   return (
-    <div className="min-h-screen bg-[#faf9f7] text-[#1c1c1e] flex">
-      {/* Sidebar */}
-      <Sidebar
-        views={partitionViews}
-        activeViewId={activeViewId}
-        onViewChange={setActiveViewId}
-        onSearchFocus={() => searchRef.current?.focus()}
-      />
+    <div className="min-h-screen bg-[#faf9f7] text-[#1c1c1e] flex justify-center">
+      {/* Centered layout: sidebar + main (Cursor-style) */}
+      <div className="flex w-full max-w-7xl min-w-0">
+        <Sidebar
+          views={partitionViews}
+          activeViewId={activeViewId}
+          onViewChange={setActiveViewId}
+          onSearchFocus={() => searchRef.current?.focus()}
+        />
 
-      {/* Main content — offset by sidebar, centered in remaining viewport */}
-      <main className="flex-1 flex justify-center min-h-screen ml-56">
+        {/* Main content */}
+        <main className="flex-1 flex justify-center min-h-screen min-w-0">
         <div className="w-full max-w-6xl px-8 py-10">
           {/* Header */}
           <motion.header
@@ -114,6 +115,7 @@ export default function Home() {
           </footer>
         </div>
       </main>
+      </div>
 
       {/* Problem Detail Modal */}
       <ProblemModal problem={selectedProblem} onClose={handleCloseModal} />

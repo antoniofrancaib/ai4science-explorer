@@ -31,13 +31,15 @@ export default function QuadrantChart({
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: 8 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
-      className="rounded-xl bg-white border border-gray-200 shadow-sm overflow-hidden"
+      onClick={() => onExpand?.(group)}
+      className={`rounded-xl bg-white border border-gray-200 shadow-sm overflow-hidden ${
+        onExpand ? "cursor-pointer" : ""
+      }`}
     >
-      {/* Header — clickable to expand */}
+      {/* Header */}
       <div
-        onClick={() => onExpand?.(group)}
         className={`px-5 pt-5 pb-3 border-b border-gray-100 ${
-          onExpand ? "cursor-pointer hover:bg-gray-50/70 transition-colors group/header" : ""
+          onExpand ? "hover:bg-gray-50/70 transition-colors group/header" : ""
         }`}
       >
         <div className="flex items-baseline justify-between mb-1">
@@ -64,7 +66,7 @@ export default function QuadrantChart({
         )}
       </div>
 
-      {/* Chart area */}
+      {/* Chart area — whole card clickable to expand */}
       <div className="relative" style={{ height: chartHeight }}>
         {/* Quadrant background — very light cool grey */}
         <div className="absolute inset-0 bg-[#f5f4f2]" />
@@ -183,7 +185,10 @@ export default function QuadrantChart({
                 }}
                 onMouseEnter={() => setHoveredProblem(problem.id)}
                 onMouseLeave={() => setHoveredProblem(null)}
-                onClick={() => onProblemClick(problem)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onProblemClick(problem);
+                }}
               >
                 {/* Black dot */}
                 <motion.div

@@ -31,7 +31,7 @@ export default function Sidebar({
   onSearchFocus,
 }: SidebarProps) {
   return (
-    <aside className="fixed top-0 left-0 h-screen w-56 flex flex-col py-7 px-4 z-40">
+    <aside className="sticky top-0 h-screen w-56 flex-shrink-0 flex flex-col py-7 px-4">
       {/* Logo / Title */}
       <div className="mb-8 px-2">
         <h1 className="text-[13px] font-semibold text-[#1c1c1e] tracking-tight leading-tight">

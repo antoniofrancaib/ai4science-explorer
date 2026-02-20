@@ -3,9 +3,11 @@
 import { useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Problem } from "@/types";
+import { ChartGroup } from "@/types";
 import { partitionViews } from "@/data/views";
 import QuadrantChart from "@/components/QuadrantChart";
 import ProblemModal from "@/components/ProblemModal";
+import ChartModal from "@/components/ChartModal";
 import Sidebar from "@/components/Sidebar";
 import SearchBar, { SearchBarHandle } from "@/components/SearchBar";
 import Legend from "@/components/Legend";
@@ -13,6 +15,7 @@ import Legend from "@/components/Legend";
 export default function Home() {
   const [activeViewId, setActiveViewId] = useState("hybrid");
   const [selectedProblem, setSelectedProblem] = useState<Problem | null>(null);
+  const [expandedChart, setExpandedChart] = useState<ChartGroup | null>(null);
   const searchRef = useRef<SearchBarHandle>(null);
 
   const activeView = partitionViews.find((v) => v.id === activeViewId)!;
@@ -86,16 +89,10 @@ export default function Home() {
             <Legend />
           </motion.div>
 
-          {/* Charts Grid */}
+          {/* Charts Grid — always 2 per row to avoid overlaps */}
           <motion.div
             layout
-            className={`grid gap-4 ${
-              activeView.groups.length <= 3
-                ? "grid-cols-1 xl:grid-cols-3"
-                : activeView.groups.length === 4
-                ? "grid-cols-1 lg:grid-cols-2"
-                : "grid-cols-1 lg:grid-cols-2 xl:grid-cols-3"
-            }`}
+            className="grid grid-cols-1 lg:grid-cols-2 gap-4"
           >
             <AnimatePresence mode="popLayout">
               {activeView.groups.map((group) => (
@@ -103,6 +100,7 @@ export default function Home() {
                   key={`${activeViewId}-${group.id}`}
                   group={group}
                   onProblemClick={handleProblemClick}
+                  onExpand={setExpandedChart}
                 />
               ))}
             </AnimatePresence>
@@ -119,6 +117,13 @@ export default function Home() {
 
       {/* Problem Detail Modal */}
       <ProblemModal problem={selectedProblem} onClose={handleCloseModal} />
+
+      {/* Chart Expand Modal */}
+      <ChartModal
+        group={expandedChart}
+        onClose={() => setExpandedChart(null)}
+        onProblemClick={handleProblemClick}
+      />
     </div>
   );
 }

@@ -350,10 +350,10 @@ export const partitionViews: PartitionView[] = [
     ],
   },
 
-  // ─── VIEW 4: HYBRID (RECOMMENDED) ───
+  // ─── VIEW 4: HYBRID ───
   {
     id: "hybrid",
-    title: "Hybrid (Recommended)",
+    title: "Hybrid",
     description:
       "Balances coherence, community alignment, and visual cleanliness. 3 maps that match how funding, conferences, and startups actually cluster.",
     groups: [

@@ -3,10 +3,14 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Problem, ChartGroup } from "@/types";
+import { Maximize2 } from "lucide-react";
 
 interface QuadrantChartProps {
   group: ChartGroup;
   onProblemClick: (problem: Problem) => void;
+  chartHeight?: number;
+  compactHeader?: boolean;
+  onExpand?: (group: ChartGroup) => void;
 }
 
 const CHART_PADDING = { top: 44, right: 16, bottom: 52, left: 88 };
@@ -14,6 +18,9 @@ const CHART_PADDING = { top: 44, right: 16, bottom: 52, left: 88 };
 export default function QuadrantChart({
   group,
   onProblemClick,
+  chartHeight = 480,
+  compactHeader = false,
+  onExpand,
 }: QuadrantChartProps) {
   const [hoveredProblem, setHoveredProblem] = useState<string | null>(null);
 
@@ -26,23 +33,39 @@ export default function QuadrantChart({
       transition={{ duration: 0.35, ease: "easeOut" }}
       className="rounded-xl bg-white border border-gray-200 shadow-sm overflow-hidden"
     >
-      {/* Header */}
-      <div className="px-5 pt-5 pb-3 border-b border-gray-100">
+      {/* Header — clickable to expand */}
+      <div
+        onClick={() => onExpand?.(group)}
+        className={`px-5 pt-5 pb-3 border-b border-gray-100 ${
+          onExpand ? "cursor-pointer hover:bg-gray-50/70 transition-colors group/header" : ""
+        }`}
+      >
         <div className="flex items-baseline justify-between mb-1">
           <h3 className="text-[15px] font-semibold text-[#1c1c1e] tracking-tight">
             {group.icon} {group.title}
           </h3>
-          <span className="text-[11px] text-[#bbb] font-mono tabular-nums">
-            {group.problems.length}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-[11px] text-[#bbb] font-mono tabular-nums">
+              {group.problems.length}
+            </span>
+            {onExpand && (
+              <Maximize2
+                size={14}
+                strokeWidth={1.7}
+                className="text-[#bbb] group-hover/header:text-[#888] transition-colors flex-shrink-0"
+              />
+            )}
+          </div>
         </div>
-        <p className="text-[12px] text-[#999] leading-relaxed">
-          {group.description}
-        </p>
+        {!compactHeader && (
+          <p className="text-[12px] text-[#999] leading-relaxed">
+            {group.description}
+          </p>
+        )}
       </div>
 
       {/* Chart area */}
-      <div className="relative" style={{ height: 480 }}>
+      <div className="relative" style={{ height: chartHeight }}>
         {/* Quadrant background — very light cool grey */}
         <div className="absolute inset-0 bg-[#f5f4f2]" />
 
@@ -84,7 +107,7 @@ export default function QuadrantChart({
           className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight whitespace-nowrap"
           style={{
             left: 12,
-            top: CHART_PADDING.top + (480 - CHART_PADDING.top - CHART_PADDING.bottom) / 4,
+            top: CHART_PADDING.top + (chartHeight - CHART_PADDING.top - CHART_PADDING.bottom) / 4,
             transform: "translate(-50%, -50%) rotate(-90deg)",
             transformOrigin: "center center",
           }}
@@ -95,7 +118,7 @@ export default function QuadrantChart({
           className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight whitespace-nowrap"
           style={{
             left: 12,
-            top: CHART_PADDING.top + (3 * (480 - CHART_PADDING.top - CHART_PADDING.bottom)) / 4,
+            top: CHART_PADDING.top + (3 * (chartHeight - CHART_PADDING.top - CHART_PADDING.bottom)) / 4,
             transform: "translate(-50%, -50%) rotate(-90deg)",
             transformOrigin: "center center",
           }}

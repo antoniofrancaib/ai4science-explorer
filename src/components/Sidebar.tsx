@@ -8,6 +8,7 @@ import {
   Scaling,
   Sparkles,
   Search,
+  Box,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -15,6 +16,9 @@ interface SidebarProps {
   activeViewId: string;
   onViewChange: (viewId: string) => void;
   onSearchFocus: () => void;
+  /** When true, the 3D Explorer tab is active */
+  is3D: boolean;
+  onToggle3D: () => void;
 }
 
 const viewIcons: Record<string, React.ReactNode> = {
@@ -29,6 +33,8 @@ export default function Sidebar({
   activeViewId,
   onViewChange,
   onSearchFocus,
+  is3D,
+  onToggle3D,
 }: SidebarProps) {
   return (
     <aside className="sticky top-0 h-screen w-56 flex-shrink-0 flex flex-col py-7 px-4">
@@ -54,10 +60,10 @@ export default function Sidebar({
         Views
       </p>
 
-      {/* View links */}
+      {/* Chart view links */}
       <nav className="flex flex-col gap-0.5">
         {views.map((view) => {
-          const isActive = view.id === activeViewId;
+          const isActive = !is3D && view.id === activeViewId;
           return (
             <button
               key={view.id}
@@ -85,6 +91,34 @@ export default function Sidebar({
           );
         })}
       </nav>
+
+      {/* Divider */}
+      <div className="my-4 border-t border-gray-100" />
+
+      {/* 3D Explorer section */}
+      <p className="px-2.5 mb-2 text-[10px] font-medium text-[#bbb] uppercase tracking-wider">
+        Visualize
+      </p>
+      <button
+        onClick={onToggle3D}
+        className={`relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-colors duration-150 ${
+          is3D
+            ? "text-[#1c1c1e]"
+            : "text-[#777] hover:text-[#444] hover:bg-black/[0.03]"
+        }`}
+      >
+        {is3D && (
+          <motion.div
+            layoutId="sidebarActive"
+            className="absolute inset-0 rounded-lg bg-black/[0.05]"
+            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          />
+        )}
+        <span className="relative flex-shrink-0">
+          <Box size={16} strokeWidth={1.7} />
+        </span>
+        <span className="relative text-[13px] font-medium">3D Explorer</span>
+      </button>
 
       {/* Footer */}
       <div className="mt-auto px-2.5">

@@ -8,6 +8,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "IDPs / Ensembles",
     x: 0.15,
     y: 0.90,
+    z: 0.82,
     category: "Biology",
     whyItMatters:
       "~30% of human proteins are disordered. They drive cancer signaling, neurodegeneration, viral entry. AlphaFold cannot model them — it forces a single static structure.",
@@ -24,6 +25,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Prog Biology",
     x: 0.08,
     y: 0.96,
+    z: 0.88,
     category: "Biology",
     whyItMatters:
       "Design cells that sense, compute, and actuate — living therapeutics, biosensors, biomanufacturing.",
@@ -40,6 +42,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Protein Co-Design",
     x: 0.44,
     y: 0.86,
+    z: 0.65,
     category: "Biology",
     whyItMatters:
       "Joint generation of backbone geometry and amino acid sequence, rather than pipeline approaches (design structure → inverse fold).",
@@ -56,6 +59,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "RNA Therapeutics",
     x: 0.20,
     y: 0.78,
+    z: 0.58,
     category: "Biology",
     whyItMatters:
       "mRNA vaccines proved the modality. But designing optimal RNA sequences (stability, secondary structure, immunogenicity) remains largely empirical.",
@@ -72,6 +76,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Genomics FMs",
     x: 0.36,
     y: 0.82,
+    z: 0.48,
     category: "Biology",
     whyItMatters:
       'Predict gene expression, regulatory effects, and variant pathogenicity from raw DNA. The "GPT moment" for biology.',
@@ -88,6 +93,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Antibody Design",
     x: 0.68,
     y: 0.80,
+    z: 0.44,
     category: "Biology",
     whyItMatters:
       "Antibodies are the fastest-growing drug class ($200B+ market). Designing them computationally can cut discovery timelines from years to weeks.",
@@ -104,6 +110,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Single-Cell FMs",
     x: 0.28,
     y: 0.74,
+    z: 0.4,
     category: "Biology",
     whyItMatters:
       "Model cellular states and transitions at single-cell resolution. Critical for understanding development, disease, and drug response.",
@@ -120,6 +127,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Protein-Protein Int",
     x: 0.32,
     y: 0.66,
+    z: 0.45,
     category: "Biology",
     whyItMatters:
       "Most biological functions are mediated by protein complexes. Predicting which proteins interact and how is fundamental to drug design.",
@@ -136,6 +144,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Enzyme Engineering",
     x: 0.22,
     y: 0.62,
+    z: 0.52,
     category: "Biology",
     whyItMatters:
       "Enzymes catalyze reactions with exquisite specificity. Engineering them enables green chemistry, biomanufacturing, and novel therapeutics.",
@@ -152,6 +161,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Microbiome Eng",
     x: 0.10,
     y: 0.56,
+    z: 0.75,
     category: "Biology",
     whyItMatters:
       "The gut microbiome influences metabolism, immunity, and neurological function. Engineering it could treat IBD, obesity, depression.",
@@ -168,6 +178,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Vaccine Design",
     x: 0.18,
     y: 0.50,
+    z: 0.5,
     category: "Biology",
     whyItMatters:
       "COVID proved the power of rapid vaccine design. AI could accelerate antigen selection, adjuvant optimization, and immune response prediction.",
@@ -184,6 +195,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Epigenomics",
     x: 0.26,
     y: 0.44,
+    z: 0.55,
     category: "Biology",
     whyItMatters:
       "Epigenetic modifications regulate gene expression without changing DNA. Key to understanding cancer, aging, and cellular reprogramming.",
@@ -200,6 +212,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Rare Disease",
     x: 0.12,
     y: 0.38,
+    z: 0.42,
     category: "Biology",
     whyItMatters:
       "~400M people globally have rare diseases. Aggregated, it's a massive unmet need. Transfer learning from common diseases and multi-task models could help.",
@@ -216,6 +229,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Glycan Modeling",
     x: 0.06,
     y: 0.32,
+    z: 0.68,
     category: "Biology",
     whyItMatters:
       "Glycans coat every cell surface and mediate immune recognition, infection, and cancer metastasis. They're the 'dark matter' of biology.",
@@ -232,6 +246,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Protein Folding",
     x: 0.92,
     y: 0.54,
+    z: 0.12,
     category: "Biology",
     whyItMatters:
       "AlphaFold 2/3 largely solved single-chain structure prediction. Incremental improvements on benchmarks.",
@@ -248,6 +263,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Small Mol Gen",
     x: 0.86,
     y: 0.42,
+    z: 0.22,
     category: "Biology",
     whyItMatters:
       "Dozens of diffusion/flow/VAE/GAN models generate drug-like molecules. Most optimize easy proxy metrics (QED, SA score).",
@@ -264,6 +280,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Docking",
     x: 0.78,
     y: 0.34,
+    z: 0.28,
     category: "Biology",
     whyItMatters:
       "ML docking (DiffDock, etc.) improved speed but scoring accuracy plateaued. Still doesn't reliably predict binding affinity.",
@@ -280,6 +297,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "QSAR",
     x: 0.82,
     y: 0.24,
+    z: 0.15,
     category: "Biology",
     whyItMatters:
       "Predicting molecular properties (toxicity, solubility, logP) from structure. A classic cheminformatics task with decades of work.",
@@ -296,6 +314,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Drug Repurposing",
     x: 0.74,
     y: 0.16,
+    z: 0.25,
     category: "Biology",
     whyItMatters:
       "Many startups and papers linking drugs → targets → diseases via graph neural networks on biomedical KGs.",
@@ -314,6 +333,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Catalyst Design",
     x: 0.22,
     y: 0.92,
+    z: 0.68,
     category: "Chemistry",
     whyItMatters:
       "Catalysts underpin 90% of chemical manufacturing. Better catalysts = cheaper green hydrogen, CO₂ conversion, fertilizer.",
@@ -330,6 +350,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Crystal Struct Pred",
     x: 0.10,
     y: 0.86,
+    z: 0.62,
     category: "Chemistry",
     whyItMatters:
       "Predict how molecules pack into crystals. Determines drug bioavailability (polymorphs), battery performance, semiconductor properties.",
@@ -346,6 +367,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Multi-Scale Sim",
     x: 0.16,
     y: 0.80,
+    z: 0.82,
     category: "Chemistry",
     whyItMatters:
       "Bridge quantum → atomistic → coarse-grained → cellular → tissue scales in a single coherent framework.",
@@ -362,6 +384,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "DFT Surrogates",
     x: 0.40,
     y: 0.78,
+    z: 0.45,
     category: "Chemistry",
     whyItMatters:
       "Replace expensive DFT/CCSD(T) calculations with ML models that predict electronic structure, energies, and properties at near-quantum accuracy.",
@@ -378,6 +401,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Battery Materials",
     x: 0.30,
     y: 0.74,
+    z: 0.55,
     category: "Chemistry",
     whyItMatters:
       "Next-gen batteries (solid-state, sodium-ion) require discovering new electrode and electrolyte materials with optimal properties.",
@@ -394,6 +418,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "ML Force Fields",
     x: 0.60,
     y: 0.76,
+    z: 0.48,
     category: "Chemistry",
     whyItMatters:
       "Simulate molecular dynamics at near-DFT accuracy but 10⁴–10⁶x faster. Essential for drug binding, protein dynamics, materials.",
@@ -410,6 +435,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Polymer Design",
     x: 0.14,
     y: 0.68,
+    z: 0.5,
     category: "Chemistry",
     whyItMatters:
       "Design polymers with target properties (strength, degradability, conductivity). Critical for sustainable materials.",
@@ -426,6 +452,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "MOF Design",
     x: 0.08,
     y: 0.62,
+    z: 0.55,
     category: "Chemistry",
     whyItMatters:
       "MOFs are nanoporous materials with applications in carbon capture, gas storage, and catalysis. Modular building blocks enable vast design spaces.",
@@ -442,6 +469,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Retrosynthesis",
     x: 0.52,
     y: 0.66,
+    z: 0.48,
     category: "Chemistry",
     whyItMatters:
       "Given a target molecule, find a viable synthetic route from commercially available starting materials.",
@@ -458,6 +486,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Semiconductor Design",
     x: 0.34,
     y: 0.58,
+    z: 0.58,
     category: "Chemistry",
     whyItMatters:
       "Design novel semiconductor materials with tailored band gaps, mobility, and thermal properties for next-gen electronics.",
@@ -474,6 +503,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Reaction Mechanisms",
     x: 0.20,
     y: 0.54,
+    z: 0.52,
     category: "Chemistry",
     whyItMatters:
       "Understanding reaction mechanisms (transition states, intermediates) is key to catalyst design and process optimization.",
@@ -490,6 +520,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Electrochemistry",
     x: 0.26,
     y: 0.48,
+    z: 0.58,
     category: "Chemistry",
     whyItMatters:
       "Electrochemical processes underpin batteries, fuel cells, electrolyzers, and corrosion. Modeling electrode-electrolyte interfaces is critical.",
@@ -506,6 +537,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Photovoltaics",
     x: 0.18,
     y: 0.42,
+    z: 0.52,
     category: "Chemistry",
     whyItMatters:
       "Design new photovoltaic materials (perovskites, organic PV) with higher efficiency and stability for solar energy.",
@@ -522,6 +554,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Formulation Design",
     x: 0.12,
     y: 0.36,
+    z: 0.35,
     category: "Chemistry",
     whyItMatters:
       "Drug formulation determines bioavailability, stability, and patient compliance. Critical for oral drug delivery and biologics.",
@@ -540,6 +573,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Plasma / Fusion",
     x: 0.10,
     y: 0.92,
+    z: 0.72,
     category: "Physics",
     whyItMatters:
       "Fusion = unlimited clean energy. Controlling plasma instabilities is the #1 bottleneck.",
@@ -556,6 +590,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Turbulence",
     x: 0.18,
     y: 0.86,
+    z: 0.75,
     category: "Physics",
     whyItMatters:
       '"The last great unsolved problem of classical physics." Better turbulence models → better weather prediction, aerodynamics, combustion, ocean currents.',
@@ -572,6 +607,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Boltzmann Sampling",
     x: 0.36,
     y: 0.80,
+    z: 0.65,
     category: "Physics",
     whyItMatters:
       "Central to statistical physics, molecular simulation, and Bayesian inference. If you can efficiently sample, you can compute free energies, predict binding affinities, and characterize phase transitions.",
@@ -588,6 +624,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Neural PDEs",
     x: 0.50,
     y: 0.74,
+    z: 0.45,
     category: "Physics",
     whyItMatters:
       "Learn solution operators for PDEs (Navier-Stokes, Maxwell, Schrödinger) instead of solving from scratch. 100-1000x speedup for engineering simulation.",
@@ -604,6 +641,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Climate Emulators",
     x: 0.64,
     y: 0.78,
+    z: 0.42,
     category: "Physics",
     whyItMatters:
       "Run climate projections in minutes instead of months. Enable high-resolution local climate predictions for adaptation planning.",
@@ -620,6 +658,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Cosmological Sim",
     x: 0.12,
     y: 0.70,
+    z: 0.52,
     category: "Physics",
     whyItMatters:
       "Simulate universe evolution to test cosmological models and interpret survey data from JWST, Euclid, and Rubin Observatory.",
@@ -636,6 +675,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Ocean Modeling",
     x: 0.22,
     y: 0.64,
+    z: 0.55,
     category: "Physics",
     whyItMatters:
       "Oceans absorb ~30% of CO₂ and >90% of excess heat. Better ocean models → better climate projections and marine ecosystem management.",
@@ -652,6 +692,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Seismology",
     x: 0.14,
     y: 0.56,
+    z: 0.48,
     category: "Physics",
     whyItMatters:
       "Earthquake early warning and risk assessment save lives. Better seismic inversion → oil/gas exploration and geothermal energy.",
@@ -668,6 +709,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Grav Waves",
     x: 0.08,
     y: 0.50,
+    z: 0.4,
     category: "Physics",
     whyItMatters:
       "LIGO/Virgo opened a new window on the universe. ML can accelerate signal detection and parameter estimation from noisy interferometer data.",
@@ -684,6 +726,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Wildfire Prediction",
     x: 0.26,
     y: 0.44,
+    z: 0.5,
     category: "Physics",
     whyItMatters:
       "Wildfires cause billions in damage annually and are increasing with climate change. Prediction models can save lives and property.",
@@ -700,6 +743,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Dark Matter / HEP",
     x: 0.20,
     y: 0.38,
+    z: 0.62,
     category: "Physics",
     whyItMatters:
       "~85% of matter is dark. ML can help detect rare events in particle physics experiments and constrain dark matter models.",
@@ -716,6 +760,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Astro Transients",
     x: 0.16,
     y: 0.32,
+    z: 0.4,
     category: "Physics",
     whyItMatters:
       "Upcoming surveys (LSST) will detect millions of transient events per night. Need automated classification and follow-up prioritization.",
@@ -732,6 +777,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Weather Forecasting",
     x: 0.74,
     y: 0.68,
+    z: 0.3,
     category: "Physics",
     whyItMatters:
       "ML weather models (GraphCast, Pangu, GenCast) now rival or beat physics-based NWP. But medium-range and extreme event prediction still need work.",
@@ -748,6 +794,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "PINNs",
     x: 0.70,
     y: 0.36,
+    z: 0.35,
     category: "Physics",
     whyItMatters:
       "Embed physical laws directly into neural network training via PDE residual losses. Promising for data-scarce regimes.",
@@ -766,6 +813,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Quantum Error Corr",
     x: 0.54,
     y: 0.94,
+    z: 0.55,
     category: "Quantum",
     whyItMatters:
       "Without fault-tolerant QEC, quantum computers remain noisy toys. Cracking this unlocks quantum advantage for drug design, optimization, cryptography.",
@@ -782,6 +830,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "AI Theorem Proving",
     x: 0.46,
     y: 0.88,
+    z: 0.65,
     category: "Math",
     whyItMatters:
       "Automate or assist mathematical proof discovery. Verified proofs guarantee correctness — critical for hardware, cryptography, and advancing pure math.",
@@ -798,6 +847,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Agentic Scientists",
     x: 0.50,
     y: 0.82,
+    z: 0.72,
     category: "Meta-Science",
     whyItMatters:
       "AI systems that autonomously form hypotheses, design experiments, interpret results, and iterate — the ultimate scientific productivity multiplier.",
@@ -814,6 +864,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Quantum Sim",
     x: 0.34,
     y: 0.78,
+    z: 0.78,
     category: "Quantum",
     whyItMatters:
       "Simulate strongly correlated quantum systems (superconductors, catalysts, exotic materials) where classical methods fail fundamentally.",
@@ -830,6 +881,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Algorithm Discovery",
     x: 0.26,
     y: 0.74,
+    z: 0.7,
     category: "Math",
     whyItMatters:
       "Use AI to discover faster algorithms (matrix multiplication, sorting, optimization). AlphaEvolve showed this is possible.",
@@ -846,6 +898,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Conjecture Gen",
     x: 0.18,
     y: 0.70,
+    z: 0.8,
     category: "Math",
     whyItMatters:
       "AI that generates novel mathematical conjectures — not just proves them. Could accelerate pure mathematics by suggesting unexpected connections.",
@@ -862,6 +915,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Scientific RL",
     x: 0.32,
     y: 0.68,
+    z: 0.58,
     category: "Math",
     whyItMatters:
       "RL works spectacularly when you can verify solutions cheaply. Science has many such problems: does this molecule dock? Does this proof check?",
@@ -878,6 +932,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Symbolic Regression",
     x: 0.24,
     y: 0.64,
+    z: 0.55,
     category: "Math",
     whyItMatters:
       "Discover interpretable governing equations from data. The dream: point a model at experimental data and recover Newton's laws.",
@@ -894,6 +949,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Manifold Learning",
     x: 0.14,
     y: 0.58,
+    z: 0.52,
     category: "Math",
     whyItMatters:
       "Many scientific data live on non-Euclidean spaces (rotations, tori, symmetric spaces). Ignoring geometry wastes data and breaks symmetries.",
@@ -910,6 +966,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Causal Discovery",
     x: 0.20,
     y: 0.52,
+    z: 0.55,
     category: "Math",
     whyItMatters:
       "Infer causal relationships from observational data. Essential for understanding mechanisms, not just correlations, in science.",
@@ -926,6 +983,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Uncertainty Quant",
     x: 0.30,
     y: 0.46,
+    z: 0.38,
     category: "Math",
     whyItMatters:
       "Scientific ML predictions are useless without reliable uncertainty estimates. Critical for safety-critical applications.",
@@ -942,6 +1000,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "PEFT for Sci FMs",
     x: 0.16,
     y: 0.42,
+    z: 0.32,
     category: "Meta-Science",
     whyItMatters:
       "Fine-tune foundation models to new domains, conditions, or organisms without catastrophic forgetting and with minimal data.",
@@ -958,6 +1017,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Interpretable ML",
     x: 0.28,
     y: 0.38,
+    z: 0.4,
     category: "Math",
     whyItMatters:
       "Scientists need to understand why a model makes a prediction, not just what it predicts. Interpretability builds trust and generates hypotheses.",
@@ -974,6 +1034,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Sci Data Infra",
     x: 0.10,
     y: 0.34,
+    z: 0.22,
     category: "Meta-Science",
     whyItMatters:
       "Most experimental data is lost, siloed, or unstructured. ML models are starving for high-quality scientific training data.",
@@ -990,6 +1051,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Reproducibility",
     x: 0.08,
     y: 0.28,
+    z: 0.18,
     category: "Meta-Science",
     whyItMatters:
       "Irreproducibility costs ~$28B/year in the US alone. AI that detects statistical errors, flags p-hacking, or auto-generates reproducibility reports has real demand.",
@@ -1006,6 +1068,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Quantum ML",
     x: 0.76,
     y: 0.26,
+    z: 0.72,
     category: "Quantum",
     whyItMatters:
       "Quantum speedups for ML tasks — kernel methods, sampling, optimization.",
@@ -1022,6 +1085,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Variational Quantum",
     x: 0.72,
     y: 0.18,
+    z: 0.65,
     category: "Quantum",
     whyItMatters:
       "Near-term quantum algorithms (VQE, QAOA) for chemistry and optimization on noisy hardware.",
@@ -1038,6 +1102,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "LLM Lit Mining",
     x: 0.84,
     y: 0.22,
+    z: 0.15,
     category: "Meta-Science",
     whyItMatters:
       "Using GPT/Claude to extract facts from papers, summarize findings, build knowledge bases.",
@@ -1054,6 +1119,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Chatbots Sci Ed",
     x: 0.90,
     y: 0.08,
+    z: 0.08,
     category: "Meta-Science",
     whyItMatters:
       "LLM wrappers that answer science questions or tutor students.",
@@ -1072,6 +1138,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Autonomous Wet Labs",
     x: 0.15,
     y: 0.88,
+    z: 0.7,
     category: "Meta-Science",
     whyItMatters:
       "Close the loop: AI designs experiment → robot executes → AI analyzes → AI redesigns. Compresses years of R&D into weeks.",
@@ -1088,6 +1155,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Active Learning",
     x: 0.12,
     y: 0.45,
+    z: 0.25,
     category: "Meta-Science",
     whyItMatters:
       "Experiments are expensive ($10K–$1M each). Intelligently choosing which experiment to run next can save months and millions.",
@@ -1104,6 +1172,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Lab Automation",
     x: 0.10,
     y: 0.40,
+    z: 0.22,
     category: "Meta-Science",
     whyItMatters:
       "Enormous installed base of lab instruments that are badly underutilized. Simple anomaly detection, schedule optimization, and predictive maintenance would save billions.",
@@ -1120,6 +1189,7 @@ export const allProblems: Record<string, Problem> = {
     shortName: "Microscopy Seg",
     x: 0.80,
     y: 0.20,
+    z: 0.2,
     category: "Meta-Science",
     whyItMatters:
       "U-Net variants for cell/tissue segmentation. SAM and foundation models handle many cases out-of-the-box.",

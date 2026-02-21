@@ -11,7 +11,6 @@ import QuadrantChart from "@/components/QuadrantChart";
 import SlideOverDrawer from "@/components/SlideOverDrawer";
 import ChartModal from "@/components/ChartModal";
 import Sidebar from "@/components/Sidebar";
-import Legend from "@/components/Legend";
 
 const Explorer3D = dynamic(() => import("@/components/Explorer3D"), {
   ssr: false,
@@ -98,8 +97,6 @@ export default function Home() {
                   {activeView.description}
                 </motion.div>
               </div>
-
-              <Legend hAxis={hAxis} vAxis={vAxis} />
             </motion.div>
           )}
 

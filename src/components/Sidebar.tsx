@@ -83,7 +83,6 @@ export default function Sidebar({
   onYAxisChange,
   onProblemClick,
 }: SidebarProps) {
-  // Inline search state
   const [query, setQuery] = useState("");
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -111,155 +110,137 @@ export default function Sidebar({
   }, []);
 
   return (
-    <aside className="sticky top-0 h-screen w-56 flex-shrink-0 flex flex-col py-7 px-4 overflow-y-auto">
-      {/* Search bar */}
-      <div ref={searchContainerRef} className="relative mb-5">
-        <div
-          className={`flex items-center gap-2 px-2.5 py-2 rounded-lg border transition-all duration-200 ${
-            isFocused
-              ? "bg-white border-gray-300 shadow-sm"
-              : "bg-transparent border-transparent hover:bg-black/[0.03]"
-          }`}
-        >
-          <Search size={14} strokeWidth={1.7} className="text-[#bbb] flex-shrink-0" />
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Search problems..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => setIsFocused(true)}
-            className="flex-1 bg-transparent text-[12px] text-[#333] placeholder:text-[#999] outline-none min-w-0"
-          />
-          {query && (
-            <button
-              onClick={() => { setQuery(""); inputRef.current?.focus(); }}
-              className="text-[#bbb] hover:text-[#666] transition-colors"
-            >
-              <X size={12} strokeWidth={1.8} />
-            </button>
-          )}
+    <aside className="sticky top-0 h-screen w-56 flex-shrink-0 flex flex-col px-4 overflow-y-auto">
+      {/* Top spacer — pushes content toward vertical center */}
+      <div className="flex-1" />
+
+      {/* ── Main nav block ── */}
+      <div className="flex flex-col">
+
+        {/* Search */}
+        <div ref={searchContainerRef} className="relative mb-5">
+          <div
+            className={`flex items-center gap-2 px-2.5 py-2 rounded-lg border transition-all duration-200 ${
+              isFocused
+                ? "bg-white border-gray-300 shadow-sm"
+                : "bg-transparent border-transparent hover:bg-black/[0.03]"
+            }`}
+          >
+            <Search size={14} strokeWidth={1.7} className="text-[#bbb] flex-shrink-0" />
+            <input
+              ref={inputRef}
+              type="text"
+              placeholder="Search problems..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              onFocus={() => setIsFocused(true)}
+              className="flex-1 bg-transparent text-[12px] text-[#333] placeholder:text-[#999] outline-none min-w-0"
+            />
+            {query && (
+              <button
+                onClick={() => { setQuery(""); inputRef.current?.focus(); }}
+                className="text-[#bbb] hover:text-[#666] transition-colors"
+              >
+                <X size={12} strokeWidth={1.8} />
+              </button>
+            )}
+          </div>
+
+          <AnimatePresence>
+            {isFocused && filtered.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: -4 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -4 }}
+                transition={{ duration: 0.12 }}
+                className="absolute top-full left-0 right-0 mt-1 py-1 rounded-lg bg-white border border-gray-200 shadow-lg z-50 max-h-64 overflow-y-auto"
+              >
+                {filtered.slice(0, 10).map((problem) => (
+                  <button
+                    key={problem.id}
+                    onClick={() => { onProblemClick(problem); setQuery(""); setIsFocused(false); }}
+                    className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 transition-colors text-left"
+                  >
+                    <div className="w-1.5 h-1.5 rounded-full bg-[#1c1c1e] flex-shrink-0" />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[11px] font-medium text-[#333] truncate">{problem.shortName}</div>
+                      <div className="text-[10px] text-[#aaa]">{problem.category}</div>
+                    </div>
+                  </button>
+                ))}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
-        {/* Search results dropdown */}
-        <AnimatePresence>
-          {isFocused && filtered.length > 0 && (
+        {/* Views */}
+        <p className="px-2.5 mb-2 text-[10px] font-medium text-[#bbb] uppercase tracking-wider">Views</p>
+        <nav className="flex flex-col gap-0.5">
+          {views.map((view) => {
+            const isActive = !is3D && view.id === activeViewId;
+            return (
+              <button
+                key={view.id}
+                onClick={() => onViewChange(view.id)}
+                className={`relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-colors duration-150 ${
+                  isActive ? "text-[#1c1c1e]" : "text-[#777] hover:text-[#444] hover:bg-black/[0.03]"
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="sidebarActive"
+                    className="absolute inset-0 rounded-lg bg-black/[0.05]"
+                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                  />
+                )}
+                <span className="relative flex-shrink-0">
+                  {viewIcons[view.id] || <Microscope size={16} strokeWidth={1.7} />}
+                </span>
+                <span className="relative text-[13px] font-medium truncate">{view.title}</span>
+              </button>
+            );
+          })}
+        </nav>
+
+        <div className="my-4 border-t border-gray-100" />
+
+        {/* Chart Axes — always visible */}
+        <p className="px-2.5 mb-2.5 text-[10px] font-medium text-[#bbb] uppercase tracking-wider">Chart Axes</p>
+        <div className="flex flex-col gap-2.5 px-2.5 mb-4">
+          <AxisSelect label="Horizontal (X)" value={xAxis} disabledKey={yAxis} onChange={onXAxisChange} />
+          <AxisSelect label="Vertical (Y)" value={yAxis} disabledKey={xAxis} onChange={onYAxisChange} />
+        </div>
+
+        <div className="my-4 border-t border-gray-100" />
+
+        {/* Visualize / 3D Explorer */}
+        <p className="px-2.5 mb-2 text-[10px] font-medium text-[#bbb] uppercase tracking-wider">Visualize</p>
+        <button
+          onClick={onToggle3D}
+          className={`relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-colors duration-150 ${
+            is3D ? "text-[#1c1c1e]" : "text-[#777] hover:text-[#444] hover:bg-black/[0.03]"
+          }`}
+        >
+          {is3D && (
             <motion.div
-              initial={{ opacity: 0, y: -4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -4 }}
-              transition={{ duration: 0.12 }}
-              className="absolute top-full left-0 right-0 mt-1 py-1 rounded-lg bg-white border border-gray-200 shadow-lg z-50 max-h-64 overflow-y-auto"
-            >
-              {filtered.slice(0, 10).map((problem) => (
-                <button
-                  key={problem.id}
-                  onClick={() => {
-                    onProblemClick(problem);
-                    setQuery("");
-                    setIsFocused(false);
-                  }}
-                  className="w-full flex items-center gap-2.5 px-3 py-2 hover:bg-gray-50 transition-colors text-left"
-                >
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#1c1c1e] flex-shrink-0" />
-                  <div className="min-w-0 flex-1">
-                    <div className="text-[11px] font-medium text-[#333] truncate">
-                      {problem.shortName}
-                    </div>
-                    <div className="text-[10px] text-[#aaa]">{problem.category}</div>
-                  </div>
-                </button>
-              ))}
-            </motion.div>
+              layoutId="sidebarActive"
+              className="absolute inset-0 rounded-lg bg-black/[0.05]"
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            />
           )}
-        </AnimatePresence>
+          <span className="relative flex-shrink-0">
+            <Box size={16} strokeWidth={1.7} />
+          </span>
+          <span className="relative text-[13px] font-medium">3D Explorer</span>
+        </button>
+
       </div>
 
-      {/* Views label */}
-      <p className="px-2.5 mb-2 text-[10px] font-medium text-[#bbb] uppercase tracking-wider">
-        Views
-      </p>
-
-      {/* Chart view links */}
-      <nav className="flex flex-col gap-0.5">
-        {views.map((view) => {
-          const isActive = !is3D && view.id === activeViewId;
-          return (
-            <button
-              key={view.id}
-              onClick={() => onViewChange(view.id)}
-              className={`relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-colors duration-150 ${
-                isActive
-                  ? "text-[#1c1c1e]"
-                  : "text-[#777] hover:text-[#444] hover:bg-black/[0.03]"
-              }`}
-            >
-              {isActive && (
-                <motion.div
-                  layoutId="sidebarActive"
-                  className="absolute inset-0 rounded-lg bg-black/[0.05]"
-                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                />
-              )}
-              <span className="relative flex-shrink-0">
-                {viewIcons[view.id] || <Microscope size={16} strokeWidth={1.7} />}
-              </span>
-              <span className="relative text-[13px] font-medium truncate">
-                {view.title}
-              </span>
-            </button>
-          );
-        })}
-      </nav>
-
-      {/* Divider */}
-      <div className="my-4 border-t border-gray-100" />
-
-      {/* Axis filters — only shown in 2D chart mode */}
-      {!is3D && (
-        <>
-          <p className="px-2.5 mb-2.5 text-[10px] font-medium text-[#bbb] uppercase tracking-wider">
-            Chart Axes
-          </p>
-          <div className="flex flex-col gap-2.5 px-2.5 mb-4">
-            <AxisSelect label="Horizontal (X)" value={xAxis} disabledKey={yAxis} onChange={onXAxisChange} />
-            <AxisSelect label="Vertical (Y)" value={yAxis} disabledKey={xAxis} onChange={onYAxisChange} />
-          </div>
-          <div className="my-4 border-t border-gray-100" />
-        </>
-      )}
-
-      {/* 3D Explorer section */}
-      <p className="px-2.5 mb-2 text-[10px] font-medium text-[#bbb] uppercase tracking-wider">
-        Visualize
-      </p>
-      <button
-        onClick={onToggle3D}
-        className={`relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg text-left transition-colors duration-150 ${
-          is3D
-            ? "text-[#1c1c1e]"
-            : "text-[#777] hover:text-[#444] hover:bg-black/[0.03]"
-        }`}
-      >
-        {is3D && (
-          <motion.div
-            layoutId="sidebarActive"
-            className="absolute inset-0 rounded-lg bg-black/[0.05]"
-            transition={{ type: "spring", stiffness: 400, damping: 30 }}
-          />
-        )}
-        <span className="relative flex-shrink-0">
-          <Box size={16} strokeWidth={1.7} />
-        </span>
-        <span className="relative text-[13px] font-medium">3D Explorer</span>
-      </button>
-
-      {/* Footer */}
-      <div className="mt-auto px-2.5">
+      {/* Bottom spacer + footer — equal weight with top spacer keeps content centered */}
+      <div className="flex-1" />
+      <div className="px-2.5 py-6">
         <p className="text-[10px] text-[#ccc] leading-relaxed">
-          Data last reviewed
-          <br />
-          Feb 2026
+          Data last reviewed<br />Feb 2026
         </p>
       </div>
     </aside>

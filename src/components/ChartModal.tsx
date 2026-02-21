@@ -1,14 +1,16 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ChartGroup } from "@/types";
+import { ChartGroup, AxisDef, Problem } from "@/types";
 import QuadrantChart from "./QuadrantChart";
 import { X } from "lucide-react";
 
 interface ChartModalProps {
   group: ChartGroup | null;
   onClose: () => void;
-  onProblemClick: (problem: import("@/types").Problem) => void;
+  onProblemClick: (problem: Problem) => void;
+  hAxis?: AxisDef;
+  vAxis?: AxisDef;
 }
 
 const EXPANDED_HEIGHT = 620;
@@ -17,6 +19,8 @@ export default function ChartModal({
   group,
   onClose,
   onProblemClick,
+  hAxis,
+  vAxis,
 }: ChartModalProps) {
   return (
     <AnimatePresence>
@@ -53,6 +57,8 @@ export default function ChartModal({
                   group={group}
                   onProblemClick={onProblemClick}
                   chartHeight={EXPANDED_HEIGHT}
+                  hAxis={hAxis}
+                  vAxis={vAxis}
                 />
               </div>
             </div>

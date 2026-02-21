@@ -1,9 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { motion, AnimatePresence } from "framer-motion";
-import { Problem } from "@/types";
+import { Problem, AxisKey, AXES } from "@/types";
 import { ChartGroup } from "@/types";
 import { partitionViews } from "@/data/views";
 import { allProblems } from "@/data/problems";
@@ -11,10 +11,8 @@ import QuadrantChart from "@/components/QuadrantChart";
 import SlideOverDrawer from "@/components/SlideOverDrawer";
 import ChartModal from "@/components/ChartModal";
 import Sidebar from "@/components/Sidebar";
-import SearchBar, { SearchBarHandle } from "@/components/SearchBar";
 import Legend from "@/components/Legend";
 
-// Dynamic import with ssr:false — Three.js cannot run on the server
 const Explorer3D = dynamic(() => import("@/components/Explorer3D"), {
   ssr: false,
   loading: () => (
@@ -29,7 +27,13 @@ export default function Home() {
   const [selectedProblem, setSelectedProblem] = useState<Problem | null>(null);
   const [expandedChart, setExpandedChart] = useState<ChartGroup | null>(null);
   const [is3D, setIs3D] = useState(false);
-  const searchRef = useRef<SearchBarHandle>(null);
+
+  // Dynamic axis selection for 2D charts
+  const [xAxisKey, setXAxisKey] = useState<AxisKey>("x");
+  const [yAxisKey, setYAxisKey] = useState<AxisKey>("y");
+
+  const hAxis = AXES.find((a) => a.key === xAxisKey)!;
+  const vAxis = AXES.find((a) => a.key === yAxisKey)!;
 
   const activeView = partitionViews.find((v) => v.id === activeViewId)!;
 
@@ -41,24 +45,22 @@ export default function Home() {
     setSelectedProblem(null);
   }, []);
 
-  const totalProblems = new Set(
-    activeView.groups.flatMap((g) => g.problems.map((p) => p.id))
-  ).size;
-
   return (
     <div className="min-h-screen bg-[#faf9f7] text-[#1c1c1e] flex justify-center">
-      {/* Centered layout: sidebar + main (Cursor-style) */}
       <div className="flex w-full max-w-7xl min-w-0">
         <Sidebar
           views={partitionViews}
           activeViewId={activeViewId}
           onViewChange={(id) => { setIs3D(false); setActiveViewId(id); }}
-          onSearchFocus={() => searchRef.current?.focus()}
           is3D={is3D}
           onToggle3D={() => setIs3D((v) => !v)}
+          xAxis={xAxisKey}
+          yAxis={yAxisKey}
+          onXAxisChange={setXAxisKey}
+          onYAxisChange={setYAxisKey}
+          onProblemClick={handleProblemClick}
         />
 
-        {/* Main content */}
         <main className="flex-1 flex justify-center min-h-screen min-w-0">
         <div className="w-full max-w-6xl px-8 py-10">
           {/* Header */}
@@ -81,29 +83,23 @@ export default function Home() {
               transition={{ duration: 0.35, delay: 0.1 }}
               className="space-y-4 mb-8"
             >
-              <div className="flex items-center justify-between gap-4">
-                <div>
-                  <motion.div
-                    key={activeViewId}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.2 }}
-                    className="text-[13px] text-[#999]"
-                  >
-                    <span className="text-[#555] font-medium">
-                      {activeView.title}
-                    </span>
-                    {" — "}
-                    {activeView.description}
-                    <span className="text-[#bbb] ml-1">
-                      ({totalProblems} problems)
-                    </span>
-                  </motion.div>
-                </div>
-                <SearchBar ref={searchRef} onProblemClick={handleProblemClick} />
+              <div>
+                <motion.div
+                  key={activeViewId}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.2 }}
+                  className="text-[13px] text-[#999]"
+                >
+                  <span className="text-[#555] font-medium">
+                    {activeView.title}
+                  </span>
+                  {" — "}
+                  {activeView.description}
+                </motion.div>
               </div>
 
-              <Legend />
+              <Legend hAxis={hAxis} vAxis={vAxis} />
             </motion.div>
           )}
 
@@ -125,7 +121,6 @@ export default function Home() {
               <Explorer3D onProblemClick={handleProblemClick} />
             </motion.div>
           ) : (
-            /* Charts Grid — always 2 per row to avoid overlaps */
             <motion.div
               key="charts"
               layout
@@ -134,10 +129,12 @@ export default function Home() {
               <AnimatePresence mode="popLayout">
                 {activeView.groups.map((group) => (
                   <QuadrantChart
-                    key={`${activeViewId}-${group.id}`}
+                    key={`${activeViewId}-${group.id}-${xAxisKey}-${yAxisKey}`}
                     group={group}
                     onProblemClick={handleProblemClick}
                     onExpand={setExpandedChart}
+                    hAxis={hAxis}
+                    vAxis={vAxis}
                   />
                 ))}
               </AnimatePresence>
@@ -162,6 +159,8 @@ export default function Home() {
         group={expandedChart}
         onClose={() => setExpandedChart(null)}
         onProblemClick={handleProblemClick}
+        hAxis={hAxis}
+        vAxis={vAxis}
       />
     </div>
   );

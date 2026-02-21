@@ -46,3 +46,18 @@ export interface PartitionView {
 }
 
 export type ViewId = "object-of-study" | "methodological" | "scale" | "hybrid";
+
+export type AxisKey = "x" | "y" | "z";
+
+export interface AxisDef {
+  key: AxisKey;
+  name: string;        // Human-readable name for the sidebar filter
+  lowLabel: string;    // Label at 0 end of the axis
+  highLabel: string;   // Label at 1 end of the axis
+}
+
+export const AXES: AxisDef[] = [
+  { key: "x", name: "Research Saturation", lowLabel: "Overlooked", highLabel: "Crowded" },
+  { key: "y", name: "Impact Potential", lowLabel: "Incremental", highLabel: "Transformative" },
+  { key: "z", name: "Technical Feasibility", lowLabel: "Tractable", highLabel: "Moonshot" },
+];

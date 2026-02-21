@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Problem, ChartGroup } from "@/types";
+import { Problem, ChartGroup, AxisDef, AXES } from "@/types";
 import { Maximize2 } from "lucide-react";
 
 interface QuadrantChartProps {
@@ -11,6 +11,10 @@ interface QuadrantChartProps {
   chartHeight?: number;
   compactHeader?: boolean;
   onExpand?: (group: ChartGroup) => void;
+  /** Which problem field to use for the horizontal axis (defaults to AXES[0] = x) */
+  hAxis?: AxisDef;
+  /** Which problem field to use for the vertical axis (defaults to AXES[1] = y) */
+  vAxis?: AxisDef;
 }
 
 const CHART_PADDING = { top: 44, right: 16, bottom: 52, left: 88 };
@@ -21,6 +25,8 @@ export default function QuadrantChart({
   chartHeight = 480,
   compactHeader = false,
   onExpand,
+  hAxis = AXES[0],
+  vAxis = AXES[1],
 }: QuadrantChartProps) {
   const [hoveredProblem, setHoveredProblem] = useState<string | null>(null);
 
@@ -46,18 +52,13 @@ export default function QuadrantChart({
           <h3 className="text-[15px] font-semibold text-[#1c1c1e] tracking-tight">
             {group.icon} {group.title}
           </h3>
-          <div className="flex items-center gap-2">
-            <span className="text-[11px] text-[#bbb] font-mono tabular-nums">
-              {group.problems.length}
-            </span>
-            {onExpand && (
-              <Maximize2
-                size={14}
-                strokeWidth={1.7}
-                className="text-[#bbb] group-hover/header:text-[#888] transition-colors flex-shrink-0"
-              />
-            )}
-          </div>
+          {onExpand && (
+            <Maximize2
+              size={14}
+              strokeWidth={1.7}
+              className="text-[#bbb] group-hover/header:text-[#888] transition-colors flex-shrink-0"
+            />
+          )}
         </div>
         {!compactHeader && (
           <p className="text-[12px] text-[#999] leading-relaxed">
@@ -66,14 +67,12 @@ export default function QuadrantChart({
         )}
       </div>
 
-      {/* Chart area — whole card clickable to expand */}
+      {/* Chart area */}
       <div className="relative" style={{ height: chartHeight }}>
-        {/* Quadrant background — very light cool grey */}
         <div className="absolute inset-0 bg-[#f5f4f2]" />
 
         {/* Crosshair lines */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
-          {/* Vertical center line */}
           <line
             x1="50%"
             y1={CHART_PADDING.top}
@@ -82,7 +81,6 @@ export default function QuadrantChart({
             stroke="#d4d4d4"
             strokeWidth="1"
           />
-          {/* Horizontal center line */}
           <line
             x1={CHART_PADDING.left}
             y1="50%"
@@ -91,7 +89,6 @@ export default function QuadrantChart({
             stroke="#d4d4d4"
             strokeWidth="1"
           />
-          {/* Border frame */}
           <rect
             x={CHART_PADDING.left}
             y={CHART_PADDING.top}
@@ -114,7 +111,7 @@ export default function QuadrantChart({
             transformOrigin: "center center",
           }}
         >
-          Transformative
+          {vAxis.highLabel}
         </div>
         <div
           className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight whitespace-nowrap"
@@ -125,29 +122,21 @@ export default function QuadrantChart({
             transformOrigin: "center center",
           }}
         >
-          Incremental
+          {vAxis.lowLabel}
         </div>
 
         {/* X-axis labels — centered under left/right half of plot */}
         <div
           className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight"
-          style={{
-            bottom: 16,
-            left: "25%",
-            transform: "translateX(-50%)",
-          }}
+          style={{ bottom: 16, left: "25%", transform: "translateX(-50%)" }}
         >
-          Overlooked
+          {hAxis.lowLabel}
         </div>
         <div
           className="absolute text-[11px] font-semibold text-[#1c1c1e] tracking-tight"
-          style={{
-            bottom: 16,
-            left: "75%",
-            transform: "translateX(-50%)",
-          }}
+          style={{ bottom: 16, left: "75%", transform: "translateX(-50%)" }}
         >
-          Crowded
+          {hAxis.highLabel}
         </div>
 
         {/* Data points */}
@@ -155,23 +144,15 @@ export default function QuadrantChart({
           {group.problems.map((problem) => {
             const isHovered = hoveredProblem === problem.id;
 
-            const leftPercent =
-              CHART_PADDING.left / 4 +
-              problem.x * (100 - (CHART_PADDING.left + CHART_PADDING.right) / 4);
-            const topPercent =
-              CHART_PADDING.top / 4 +
-              (1 - problem.y) *
-                (100 - (CHART_PADDING.top + CHART_PADDING.bottom) / 4);
+            const hVal = problem[hAxis.key];
+            const vVal = problem[vAxis.key];
 
             return (
               <motion.div
                 key={problem.id}
                 layout
                 initial={{ opacity: 0 }}
-                animate={{
-                  opacity: 1,
-                  zIndex: isHovered ? 50 : 1,
-                }}
+                animate={{ opacity: 1, zIndex: isHovered ? 50 : 1 }}
                 exit={{ opacity: 0 }}
                 transition={{
                   layout: { type: "spring", stiffness: 300, damping: 30 },
@@ -179,8 +160,8 @@ export default function QuadrantChart({
                 }}
                 className="absolute cursor-pointer group/dot"
                 style={{
-                  left: `${problem.x * 100}%`,
-                  top: `${(1 - problem.y) * 100}%`,
+                  left: `${hVal * 100}%`,
+                  top: `${(1 - vVal) * 100}%`,
                   transform: "translate(-50%, -50%)",
                 }}
                 onMouseEnter={() => setHoveredProblem(problem.id)}
@@ -190,27 +171,21 @@ export default function QuadrantChart({
                   onProblemClick(problem);
                 }}
               >
-                {/* Black dot */}
                 <motion.div
                   className="rounded-full bg-[#1c1c1e]"
-                  style={{
-                    width: isHovered ? 9 : 7,
-                    height: isHovered ? 9 : 7,
-                  }}
+                  style={{ width: isHovered ? 9 : 7, height: isHovered ? 9 : 7 }}
                 />
 
-                {/* Text label — always visible */}
+                {/* Text label */}
                 <div
                   className={`absolute left-3.5 top-1/2 -translate-y-1/2 whitespace-nowrap text-[10px] leading-none pointer-events-none transition-colors duration-150 ${
-                    isHovered
-                      ? "text-[#1c1c1e] font-semibold"
-                      : "text-[#666] font-medium"
+                    isHovered ? "text-[#1c1c1e] font-semibold" : "text-[#666] font-medium"
                   }`}
                 >
                   {problem.shortName}
                 </div>
 
-                {/* Hover card with extra info */}
+                {/* Hover card */}
                 <AnimatePresence>
                   {isHovered && (
                     <motion.div
@@ -224,7 +199,7 @@ export default function QuadrantChart({
                         {problem.shortName}
                       </div>
                       <div className="text-[10px] text-[#999] mt-0.5">
-                        {problem.category} · {problem.overlooked}
+                        {problem.category}
                       </div>
                     </motion.div>
                   )}

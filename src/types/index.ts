@@ -1,3 +1,10 @@
+export interface Paper {
+  title: string;
+  authors: string;
+  year: number;
+  link: string;
+}
+
 export interface Problem {
   id: string;
   name: string;
@@ -6,11 +13,20 @@ export interface Problem {
   y: number; // 0 = Incremental, 1 = Transformative
   z: number; // 0 = Tractable, 1 = Moonshot
   category: string;
+  // Legacy fields kept for chart tooltips / search
   whyItMatters: string;
   whyItsHard: string;
   overlooked: string;
   startupAngle: string;
   tags: string[];
+  // Deep-dive drawer fields
+  definition: string;
+  bottleneck: string;
+  currentSota: string;
+  solvedState: string;
+  symmetries: string[];
+  benchmarks: string[];
+  papers: Paper[];
 }
 
 export interface ChartGroup {

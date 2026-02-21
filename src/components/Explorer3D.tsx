@@ -238,12 +238,10 @@ export default function Explorer3D({ onProblemClick }: Explorer3DProps) {
           <directionalLight position={[3, 4, 5]} intensity={0.6} />
           <pointLight position={[-2, -2, -2]} intensity={0.3} color="#fff" />
 
-          {/* Orbit controls — auto-rotates until user interacts */}
+          {/* Orbit controls — responds only to explicit user interaction */}
           <OrbitControls
             enableDamping
             dampingFactor={0.08}
-            autoRotate
-            autoRotateSpeed={0.5}
             minDistance={0.8}
             maxDistance={4.5}
           />

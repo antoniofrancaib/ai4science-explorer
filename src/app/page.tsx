@@ -8,7 +8,7 @@ import { ChartGroup } from "@/types";
 import { partitionViews } from "@/data/views";
 import { allProblems } from "@/data/problems";
 import QuadrantChart from "@/components/QuadrantChart";
-import ProblemModal from "@/components/ProblemModal";
+import SlideOverDrawer from "@/components/SlideOverDrawer";
 import ChartModal from "@/components/ChartModal";
 import Sidebar from "@/components/Sidebar";
 import SearchBar, { SearchBarHandle } from "@/components/SearchBar";
@@ -154,8 +154,8 @@ export default function Home() {
       </main>
       </div>
 
-      {/* Problem Detail Modal */}
-      <ProblemModal problem={selectedProblem} onClose={handleCloseModal} />
+      {/* Problem detail slide-over drawer */}
+      <SlideOverDrawer problem={selectedProblem} onClose={handleCloseModal} />
 
       {/* Chart Expand Modal */}
       <ChartModal
